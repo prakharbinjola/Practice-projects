@@ -1,0 +1,71 @@
+-- peer review assignment 
+
+select 
+	cps.NAME_OF_SCHOOL, 
+	cd.COMMUNITY_AREA_NAME, 
+	cps.AVERAGE_STUDENT_ATTENDANCE
+from 
+	CHICAGO_PUBLIC_SCHOOLS cps
+		left join 
+	CENSUS_DATA cd on cps.COMMUNITY_AREA_NUMBER = cd.COMMUNITY_AREA_NUMBER
+where 
+	cd.HARDSHIP_INDEX = 98;
+
+
+
+select 
+	ccd.CASE_NUMBER, 
+	ccd.PRIMARY_TYPE, 
+	cd.COMMUNITY_AREA_NAME, 
+	ccd.LOCATION_DESCRIPTION
+from 
+	CHICAGO_CRIME_DATA ccd
+		left join 
+	CENSUS_DATA cd on ccd.COMMUNITY_AREA_NUMBER = cd.COMMUNITY_AREA_NUMBER
+where 
+	ccd.LOCATION_DESCRIPTION like '%SCHOOL%';
+
+
+
+create or replace view SCHOOL_VIEW(School_Name, Safety_Rating, Family_Rating, Environment_Rating, Instruction_Rating, Leaders_Rating, Teachers_Rating) as
+	select NAME_OF_SCHOOL, Safety_Icon, Family_Involvement_Icon, Environment_Icon, Instruction_Icon, Leaders_Icon, Teachers_Icon
+	from 
+		CHICAGO_PUBLIC_SCHOOLS;
+select * from SCHOOL_VIEW;
+select School_Name, Leaders_Rating from SCHOOL_VIEW;
+
+
+
+--#SET TERMINATOR @
+create or replace procedure UPDATE_LEADERS_SCORE(IN in_School_ID integer, IN in_Leader_Score integer)
+LANGUAGE SQL 
+MODIFIES SQL DATA
+begin
+	update CHICAGO_PUBLIC_SCHOOLS
+	set Leaders_Score = in_Leader_Score
+	where School_ID = in_School_ID;
+	
+	if in_Leader_Score > 0 and in_Leader_Score < 20 then 
+		update CHICAGO_PUBLIC_SCHOOLS
+		set Leaders_Icon = 'Very weak';
+	elseif in_Leader_Score < 40 then 
+		update CHICAGO_PUBLIC_SCHOOLS
+		set Leaders_Icon = 'Weak';
+	elseif in_Leader_Score < 60 then 
+		update CHICAGO_PUBLIC_SCHOOLS
+		set Leaders_Icon = 'Average';
+	elseif in_Leader_Score < 80 then 
+		update CHICAGO_PUBLIC_SCHOOLS
+		set Leaders_Icon = 'Strong';
+	elseif in_Leader_Score < 100 then 
+		update CHICAGO_PUBLIC_SCHOOLS
+		set Leaders_Icon = 'Very strong';
+	else
+		rollback work;
+	end if;
+	commit work;
+end
+@
+
+call UPDATE_LEADERS_SCORE(610281, 38)
+call UPDATE_LEADERS_SCORE(610281, 101)
