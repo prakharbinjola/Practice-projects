@@ -1,0 +1,13 @@
+1.	Year_Sold
+2.	9
+3.	COUNTA
+4.	COUNTBLANK
+5.	23934000
+6.	
+=SUMIFS(Price_Paid,Property_Type,$A4,Year_Sold,C$3)
+7.	Other
+8.	August
+9.	October
+10.	
+11.	Power
+12.	0.9933
