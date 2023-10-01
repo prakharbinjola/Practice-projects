@@ -1,0 +1,10 @@
+1.	15.76
+2.	27.49
+3.	495.27
+4.	2,546.41
+5.	1,279.42
+6.	1,728.56
+7.	24,190.02
+8.	377.12
+9.	No, but you could use the Apply Named Range to apply it.
+10.	JPY
