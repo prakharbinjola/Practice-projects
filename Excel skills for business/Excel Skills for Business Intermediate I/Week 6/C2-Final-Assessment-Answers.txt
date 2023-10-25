@@ -1,0 +1,20 @@
+1.	62.6
+2.	62.7
+3.	63.8
+4.	C
+5.	Yellow
+6.	Blue
+7.	3
+8.	662
+9.	311
+10.	242
+11.	Option B(Highest at Term 2, lowest at Term 3)
+12.	Option B(Green header, Grey body)
+13.	3451742.00
+14.	462
+15.	41
+16.	33
+17.	12.88
+18.	68.05
+19.	0.9481
+20.	73
